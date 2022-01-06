@@ -16,12 +16,16 @@ module.exports = (core) => {
       return item !== indexFile
     })
 
+    let all = {}
+
     files.forEach((file) => {
-      core.logger.info('[CORE] require ./routes/'+file)
-      require('./'+file)(core)
+      const ext = path.extname(file)
+      const filename = path.basename(file, ext)
+      core.logger.info('[CORE] require ./controllers/'+file)
+      all[filename] = require('./'+file)
     })
 
-    return core
+    return all
   } catch (e) {
     let ERROR = new Error(e)
     ERROR = {

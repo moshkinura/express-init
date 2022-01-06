@@ -1,28 +1,30 @@
+require('dotenv').config()
+
 const express = require('express')
 const ExpressConfig = require('./ExpressConfig')
 
 const { Logger } = require('camel-logger')
-const logger = new Logger('log/api_log.txt')
+const logger = new Logger('log/backend_log.txt')
 
-// const Routes = require('./routes')
+const Routes = require('./routes')
+const Controllers = require('./controllers')
 
-const AuthRoutes = require('./routes/AuthRoutes')
-const UserRoutes = require('./routes/UserRoutes')
+const APP_PORT = process.env.APP_PORT || 4000
 
-const portApp = process.env.APP_PORT || 4000
-
-module.exports = ExpressJS = class ExpressJS {
+module.exports = class ExpressJS {
   constructor() {
     this.app = null
     this.logger = null
+    this.controllers = null
+    this.models = null
 
     this.init()
   }
 
   async init() {
-    // const app = express()
     this.app = express()
     this.logger = logger
+    this.controllers = Controllers(this)
 
     /* APP */
     this.app = await ExpressConfig(this)
@@ -31,11 +33,9 @@ module.exports = ExpressJS = class ExpressJS {
 
     this.app.use('/', this.app.api)
 
-    // Routes(this.app)
+    // ALL AUTO ROUTES
+    Routes(this)
 
-    // ROUTES
-    AuthRoutes(this.app)
-    UserRoutes(this.app)
     /* /APP */
 
     /* ERROR TRAP */
@@ -53,8 +53,8 @@ module.exports = ExpressJS = class ExpressJS {
       }
     })
 
-    this.app.listen(portApp, () => {
-      this.logger.info(`#API STRIPRADAR started on port ${portApp}`)
+    this.app.listen(APP_PORT, () => {
+      this.logger.info(`#BACKEND started on port ${APP_PORT}`)
     })
   }
 }
