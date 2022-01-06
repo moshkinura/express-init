@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "The backend of the site written in express.js",
+  "author": "Yury Moshkin <moshkin_ura@mail.ru> (https://bitbucket.org/belko42/)",
+  "license": "ISC",
+  "private": true,
+  "main": "./src/app.js",
+  "scripts": {
+    "start": "cross-env NODE_ENV=development nodemon ./src/app.js"
+  },
+  "engines": {
+    "node": ">=15.8.0",
+    "npm": ">=7.11.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@bitbucket.org/belko42/backend-init.git"
+  },
+  "bugs": {
+    "url": "https://bitbucket.org/belko42/backend-init/issues"
+  },
+  "homepage": "https://bitbucket.org/belko42/backend-init#readme"
+}
