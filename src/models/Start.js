@@ -1,17 +1,11 @@
-const { Sequelize, DataTypes, Model } = require('sequelize')
+const mongoose = require('mongoose')
+const { Schema } = mongoose
 
-const { db } = require('../config/db')
-
-const Start = db.define('Start', {
-  id: {
-    type: DataTypes.INTEGER,
-    autoIncrement: true,
-    primaryKey: true,
-    allowNull: false,
+const StartSchema = new Schema({
+  type: {
+    type: Boolean,
+    required: true,
   },
-}, {
-  timestamp: true,
-  tableName: 'Start',
 })
 
-module.exports = Start
+module.exports = mongoose.model('Start', StartSchema)

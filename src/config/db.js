@@ -1,24 +1,26 @@
 require('dotenv').config()
 
-const { Sequelize, DataTypes, Model } = require('sequelize')
+const mongoose = require('mongoose')
 
-const username = process.env.DB_USERNAME || 'postgres'
-const password = process.env.DB_PASSWORD || 'qwerty'
-const host = process.env.DB_HOST || 'localhost'
-const port = process.env.DB_PORT || 5432
-const database = process.env.DB_NAME || 'postgres'
+const username = process.env.DB_USERNAME || 'mongoose'
+const password = process.env.DB_PASSWORD || 'mongodb'
+const host = process.env.DB_HOST || 'cluster0.uyb5o.mongodb.net'
+const port = process.env.DB_PORT || 27017
+const database = process.env.DB_NAME || 'myFirstDatabase'
 
-const sequelize = new Sequelize({
-  database,
-  username,
-  password,
-  host,
-  port,
-  dialect: "postgres"
-})
+const URL = `mongodb+srv://${username}:${password}@${host}/${database}?retryWrites=true&w=majority`
 
-sequelize.sync()
+module.exports = async (core) => {
+  try {
+    await mongoose.connect(URL, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    })
 
-module.exports = {
-  db: sequelize,
+    core.logger.log(`[CORE] DB connect - ${database}`)
+
+    return core
+  } catch (error) {
+    console.log(error)
+  }
 }

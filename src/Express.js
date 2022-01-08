@@ -5,6 +5,7 @@ const ExpressConfig = require('./ExpressConfig')
 
 const { Logger } = require('camel-logger')
 const logger = new Logger('log/backend_log.txt')
+const db = require('./config/db')
 
 const Routes = require('./routes')
 const Controllers = require('./controllers')
@@ -27,6 +28,8 @@ module.exports = class ExpressJS {
     this.controllers = Controllers(this)
 
     /* APP */
+    await db(this) // connect with db
+
     this.app = await ExpressConfig(this)
 
     this.app.api = express.Router()
